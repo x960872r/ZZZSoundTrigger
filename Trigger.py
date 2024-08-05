@@ -17,6 +17,8 @@ from ctypes import wintypes
 
 from Listener import GameAudioListener
 from Monitor import WaveMonitor
+import vgamepad as vg #手柄相关的头文件
+gamepad = vg.VX360Gamepad() #生成对象
 
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 INPUT_MOUSE = 0
@@ -104,6 +106,14 @@ class SoftKbMouseV3(SoftKbMouse):
         self.PressKey(0x20)
         time.sleep((random.random() + 1.0) * self.PRESS_TIME)  # human-like
         self.ReleaseKey(0x20)
+
+    def Xbox_Controller(self):
+        gamepad.press_button(0x3000)
+        gamepad.update()
+        time.sleep(0.05)
+        gamepad.release_button(0x3000)
+        gamepad.update()
+        time.sleep(0.05)
 
     def double_dodge(self):
         self.Mouse(0, 0, MOUSEEVENTF_RIGHTDOWN)
